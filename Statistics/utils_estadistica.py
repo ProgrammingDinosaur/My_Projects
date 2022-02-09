@@ -7,12 +7,12 @@ import statistics
 
 class TablaDistribucionFrecuencias:
     
-    def crear_tabla_integros(self,dataframe: pd.DataFrame):
+    def crear_tabla_integros(self,dataframe: pd.DataFrame,index = 1):
         table = pd.DataFrame()
-        uniques = dataframe.iloc[:,1].sort_values().unique()
+        uniques = dataframe.iloc[:,index].sort_values().unique()
         frec_abs = []
         for value in uniques:
-            frec_abs.append((dataframe.iloc[:,1] == value).sum())
+            frec_abs.append((dataframe.iloc[:,index] == value).sum())
         total = np.sum(np.array(frec_abs))
         table['Valores'] = uniques
         table['Frec Abs'] = frec_abs
@@ -28,13 +28,13 @@ class TablaDistribucionFrecuencias:
 
         return table
     
-    def crear_tabla_por_intervalos(self,dataframe: pd.DataFrame,start_val:int,end_val: int, intervalo: int):
+    def crear_tabla_por_intervalos(self,dataframe: pd.DataFrame,start_val:int,end_val: int, intervalo: int,index = 1):
         table = pd.DataFrame()
     
         frec_abs = []
         rangos = []
         for i in range(start_val,end_val+1,intervalo):
-            values = dataframe.iloc[:,1]
+            values = dataframe.iloc[:,index]
             total = 0
             for value in values:
                 if value < i+intervalo and value >= i:
