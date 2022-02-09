@@ -73,9 +73,3 @@ class MedidasEstadistica:
         return statistics.mode(moda_list)
 
 
-test = pd.read_csv(r'C:\Users\Usuario\Documents\Coding\PythonPracticas\FrequencyDist\estudiantes.csv')
-
-creador = TablaDistribucionFrecuencias()
-
-ta = creador.crear_tabla_por_intervalos(test,1,10,2)
-print(ta)
