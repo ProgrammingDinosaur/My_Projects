@@ -33,7 +33,7 @@ class TablaDistribucionFrecuencias:
     
         frec_abs = []
         rangos = []
-        for i in range(start_val,end_val+1,intervalo):
+        for i in range(start_val,end_val,intervalo):
             values = dataframe.iloc[:,index]
             total = 0
             for value in values:
