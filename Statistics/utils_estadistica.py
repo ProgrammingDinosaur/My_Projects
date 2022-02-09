@@ -7,7 +7,7 @@ import statistics
 
 class TablaDistribucionFrecuencias:
     
-    def create_fdt_from_df(self,dataframe: pd.DataFrame):
+    def crear_tabla_integros(self,dataframe: pd.DataFrame):
         table = pd.DataFrame()
         uniques = dataframe.iloc[:,1].sort_values().unique()
         frec_abs = []
@@ -27,6 +27,35 @@ class TablaDistribucionFrecuencias:
             table.iloc[idx,4] = str(round(value/total,2)) if idx == 0 else (float(round(value/total,2)) + float(table.iloc[idx-1,4]))
 
         return table
+    
+    def crear_tabla_por_intervalos(self,dataframe: pd.DataFrame,start_val:int,end_val: int, intervalo: int):
+        table = pd.DataFrame()
+    
+        frec_abs = []
+        rangos = []
+        for i in range(start_val,end_val+1,intervalo):
+            values = dataframe.iloc[:,1]
+            total = 0
+            for value in values:
+                if value < i+intervalo and value >= i:
+                    total +=1
+            frec_abs.append(total)
+            
+            rangos.append(str(i)+"-"+str(i+intervalo))
+        total_values = np.sum(np.array(frec_abs))
+        print(rangos)
+        table['Valores'] = rangos
+        table['Frec Abs'] = frec_abs
+        table['Frec Rel'] = 0
+        table['Frec Abs Ac'] = 0
+        table['Frec Rel Ac'] = 0
+        for idx,value in enumerate(frec_abs):
+            table.iloc[idx,2] = str(round(value/total_values,2))
+        for idx,value in enumerate(frec_abs):
+            table.iloc[idx,3] = value if idx == 0 else value + table.iloc[idx-1,3]
+            table.iloc[idx,4] = str(round(value/total_values,2)) if idx == 0 else (float(round(value/total_values,2)) + float(table.iloc[idx-1,4]))
+
+        return table
         
 class MedidasEstadistica:
     
@@ -44,4 +73,9 @@ class MedidasEstadistica:
         return statistics.mode(moda_list)
 
 
+test = pd.read_csv(r'C:\Users\Usuario\Documents\Coding\PythonPracticas\FrequencyDist\estudiantes.csv')
 
+creador = TablaDistribucionFrecuencias()
+
+ta = creador.crear_tabla_por_intervalos(test,1,10,2)
+print(ta)
