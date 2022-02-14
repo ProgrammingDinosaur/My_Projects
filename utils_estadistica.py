@@ -80,7 +80,7 @@ def media_ponderada(dataframe: pd.DataFrame,valores_idx = 1, pesos_idx = 2):
 
 def calcular_tasa(rango_valores: np.ndarray,media_tipo = 'arit'):
     media_tipos = ['arit','gmean']
-    if len(rango_valores.shape) > 1:
+    if ((len(rango_valores.shape)) > 1):
         raise InvalidDim("The passed ndarray should be 1-dimensional")
     if media_tipo not in media_tipos:
         raise ValueError("Argument 'media_tipo' should be either 'arit' or 'gmean'")
