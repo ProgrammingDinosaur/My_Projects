@@ -79,8 +79,6 @@ def media_ponderada(dataframe: pd.DataFrame,valores_idx = 1, pesos_idx = 2):
     return np.average(dataframe.iloc[:,valores_idx].values,weights=dataframe.iloc[:,pesos_idx].values)
 
 def calcular_tasa(rango_valores: np.ndarray,media_tipo = 'arit'):
-    rango_valores = rango_valores
-    media_tipo = media_tipo
     media_tipos = ['arit','gmean']
     if ((len(rango_valores.shape)) > 1):
         raise InvalidDim("The passed ndarray should be 1-dimensional")
@@ -90,6 +88,6 @@ def calcular_tasa(rango_valores: np.ndarray,media_tipo = 'arit'):
     for idx,i in enumerate(rango_valores):
         if idx != 1:
             value_hist.append(i/rango_valores[idx-1])
-        value_hist = np.array(value_hist)
+    value_hist = np.array(value_hist)
     return np.mean(value_hist) if media_tipo == 'arit' else gmean(value_hist)
 
