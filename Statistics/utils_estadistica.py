@@ -120,7 +120,7 @@ def mediana_agrupada(tabla_dist: pd.DataFrame, frec_abs_idx = 1)->float:
     count = 0
     for idx,value in enumerate(values): 
         count += value
-        if count > total_frec_abs:
+        if count > (total_frec_abs/2):
             median_index = idx
             break
     rango = tabla_dist.iloc[median_index,0].split('-')
