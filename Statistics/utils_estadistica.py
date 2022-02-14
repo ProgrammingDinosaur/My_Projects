@@ -134,9 +134,9 @@ def moda_agrupada_mismos_intervalos(tabla_dist: pd.DataFrame,frec_abs_idx = 1)->
     values = tabla_dist.iloc[:,frec_abs_idx].values
     max_val = np.argmax(values)[0]
     rango = tabla_dist.iloc[max_val,0].split('-')
-    first_arg = int(rango[0])
-    second_arg = int(rango[1])
-    a = second_arg-first_arg
+    first_arg = rango[0]
+    second_arg = rango[1]
+    a = int(second_arg)-int(first_arg)
     moda_agmi = first_arg+((values[max_val]+1)/(values[max_val-1]+values[max_val+1]))*a
     return moda_agmi
 
