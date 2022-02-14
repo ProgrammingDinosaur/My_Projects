@@ -124,8 +124,8 @@ def mediana_agrupada(tabla_dist: pd.DataFrame, frec_abs_idx = 1)->float:
             median_index = idx
             break
     rango = tabla_dist.iloc[median_index,0].split('-')
-    first_arg = rango[0]
-    second_arg = rango[1]
+    first_arg = int(rango[0])
+    second_arg = int(rango[1])
     a = second_arg-first_arg
     mediana_agrup = first_arg+((((np.sum(values))/2)-values[median_index-1])/(values[median_index]))*a
     return mediana_agrup
