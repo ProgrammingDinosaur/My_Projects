@@ -114,7 +114,7 @@ def calcular_tasa(rango_valores: np.ndarray,media_tipo = 'arit')->np.ndarray:
     value_hist = np.array(value_hist)
     return np.mean(value_hist) if media_tipo == 'arit' else gmean(value_hist)
 
-def media_agrupada(tabla_dist: np.ndarray, frec_abs_idx = 1)->float:
+def mediana_agrupada(tabla_dist: np.ndarray, frec_abs_idx = 1)->float:
     values = tabla_dist.iloc[:,frec_abs_idx].values
     total_frec_abs = np.sum(values)
     count = 0
