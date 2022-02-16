@@ -280,7 +280,7 @@ def calcular_percentiles(df: pd.DataFrame,data_col_idx: int, percentil_list: lis
     percentiles = df.iloc[data_col_idx].quantile(percentil_list,interpolation='midpoint')
     return percentiles
 
-def calcular_percentiles_datos_agrupados(tabla_dist: pd.DataFrame,percentil: float, frec_abs_idx = 1,):
+def calcular_percentiles_datos_agrupados(tabla_dist: pd.DataFrame,percentils: list, frec_abs_idx = 1,):
     """
     Toma un Dataframe en forma de distribución de frecuencias (agrupada) y obtiene el percentil dado.
 
@@ -295,19 +295,20 @@ def calcular_percentiles_datos_agrupados(tabla_dist: pd.DataFrame,percentil: flo
     Regresa: 
         float del resultado del percentil
     """
+
     values = tabla_dist.iloc[:,frec_abs_idx].values
     total = np.sum(values)
-    percentil_pos = (percentil*total)/100
-    count = 0
-    for idx,value in enumerate(values): 
-        prev_count = count
-        count += value
-        if count > percentil_pos:
-            perc_idx = idx
-            break
-    rango_val = tabla_dist.iloc[perc_idx,0].split('-')
-    a = float(rango_val[1])-float(rango_val[0])
-    lim_inf = float(rango_val[0])
-    percentil = lim_inf+((percentil_pos-prev_count)/(tabla_dist.iloc[perc_idx,frec_abs_idx]))*a
-    return percentil
-    
+    for percentil in percentils:
+        percentil_pos = (percentil*total)/100
+        count = 0
+        for idx,value in enumerate(values): 
+            prev_count = count
+            count += value
+            if count > percentil_pos:
+                perc_idx = idx
+                break
+        rango_val = tabla_dist.iloc[perc_idx,0].split('-')
+        a = float(rango_val[1])-float(rango_val[0])
+        lim_inf = float(rango_val[0])
+        percen = lim_inf+((percentil_pos-prev_count)/(tabla_dist.iloc[perc_idx,frec_abs_idx]))*a
+        yield 'Percentil: '+str(percentil)+ ' : ' + str(percen)
