@@ -309,5 +309,5 @@ def calcular_percentiles_datos_agrupados(tabla_dist: pd.DataFrame,percentil: flo
     a = float(rango_val[1])-float(rango_val[0])
     lim_inf = float(rango_val[0])
     percentil = lim_inf*((percentil_pos-prev_count)/(tabla_dist.iloc[perc_idx,frec_abs_idx]))*a
-    return percentil
+    return round(percentil,2)
     
