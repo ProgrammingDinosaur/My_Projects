@@ -262,4 +262,20 @@ def moda_agrupada_intervalos_diferentes(tabla_dist: pd.DataFrame, frec_abs_idx =
     (frecuencia_normalizada[moda_indice]-frecuencia_normalizada[moda_indice+1])))*ranges[moda_indice]
     return moda_id
 
+def calcular_percentiles(df: pd.DataFrame,data_col_idx: int, percentil_list: list)->pd.DataFrame:
+    """
+    Toma valores de una columna de un dataframe y obtiene los percentiles pasados en una lista.
 
+    NOTA:
+        No usar en datos agrupados
+
+    Parametros:
+        df: Dataframe de Pandas del cual sacar los datos
+        data_col_idx: (int) indice de la columna del DataFrame con los datos
+        percentil_list: Lista con los percentiles a calcular
+
+    Regresa: 
+        Pandas DataFrame con el percentil y su valor
+    """
+    percentiles = df.iloc[data_col_idx].quantile(percentil_list,interpolation='midpoint')
+    return percentiles
