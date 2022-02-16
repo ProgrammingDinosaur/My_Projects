@@ -207,7 +207,7 @@ def mediana_agrupada(tabla_dist: pd.DataFrame, frec_abs_idx = 1)->float:
     first_arg = int(rango[0])
     second_arg = int(rango[1])
     a = second_arg-first_arg
-    mediana_agrup = first_arg+((((np.sum(values))/2)-values[median_index-1])/(values[median_index]))*a
+    mediana_agrup = first_arg+((((np.sum(values))/2)-prev_count)/(values[median_index]))*a
     return round(mediana_agrup,2)
 
 def moda_agrupada_mismos_intervalos(tabla_dist: pd.DataFrame,frec_abs_idx = 1)->float:
