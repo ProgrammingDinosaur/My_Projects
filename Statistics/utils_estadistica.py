@@ -204,8 +204,8 @@ def mediana_agrupada(tabla_dist: pd.DataFrame, frec_abs_idx = 1)->float:
             median_index = idx
             break
     rango = tabla_dist.iloc[median_index,0].split('-')
-    first_arg = int(rango[0])
-    second_arg = int(rango[1])
+    first_arg = float(rango[0])
+    second_arg = float(rango[1])
     a = second_arg-first_arg
     mediana_agrup = first_arg+((((np.sum(values))/2)-prev_count)/(values[median_index]))*a
     return round(mediana_agrup,2)
@@ -230,7 +230,7 @@ def moda_agrupada_mismos_intervalos(tabla_dist: pd.DataFrame,frec_abs_idx = 1)->
     rango = tabla_dist.iloc[max_val,0].split('-')
     first_arg = rango[0]
     second_arg = rango[1]
-    a = int(second_arg)-int(first_arg)
+    a = float(second_arg)-float(first_arg)
     moda_agmi = first_arg+((values[max_val]+1)/(values[max_val-1]+values[max_val+1]))*a
     return moda_agmi
 
@@ -250,7 +250,7 @@ def moda_agrupada_intervalos_diferentes(tabla_dist: pd.DataFrame, frec_abs_idx =
         moda en forma de float
     """
     values = tabla_dist.iloc[:,frec_abs_idx].values
-    ranges = [(int(r.split('-')[1])-int(r.split('-')[0])) for r in tabla_dist.iloc[:,0].values]
+    ranges = [(float(r.split('-')[1])-float(r.split('-')[0])) for r in tabla_dist.iloc[:,0].values]
     frecuencia_normalizada = []
     for idx,i in enumerate(ranges):
         frecuencia_normalizada.append(values[idx]/i)
@@ -267,7 +267,7 @@ def calcular_percentiles(df: pd.DataFrame,data_col_idx: int, percentil_list: lis
     Toma valores de una columna de un dataframe y obtiene los percentiles pasados en una lista.
 
     NOTA:
-        No usar en datos agrupados
+        No usar en datos agrupados, ver funcion "calcular_percentiles_datos_agrupados"
 
     Parametros:
         df: Dataframe de Pandas del cual sacar los datos
@@ -279,3 +279,35 @@ def calcular_percentiles(df: pd.DataFrame,data_col_idx: int, percentil_list: lis
     """
     percentiles = df.iloc[data_col_idx].quantile(percentil_list,interpolation='midpoint')
     return percentiles
+
+def calcular_percentiles_datos_agrupados(tabla_dist: pd.DataFrame,percentil: float, frec_abs_idx = 1,):
+    """
+    Toma un Dataframe en forma de distribución de frecuencias (agrupada) y obtiene el percentil dado.
+
+    NOTA:
+        No usar en datos separados, ver funcion "calcular_percentiles"
+
+    Parametros:
+        df: Dataframe de Pandas del cual sacar los datos
+        data_col_idx: (int) indice de la columna del DataFrame con los datos
+        percentil: float del percentil a calcular 
+
+    Regresa: 
+        float del resultado del percentil
+    """
+    values = tabla_dist.iloc[:,frec_abs_idx].values
+    total = np.sum(values)
+    percentil_pos = (percentil*total)/100
+    count = 0
+    for idx,value in enumerate(values): 
+        prev_count = count
+        count += value
+        if count > percentil_pos:
+            perc_idx = idx
+            break
+    rango_val = tabla_dist.iloc[perc_idx,0].split('-')
+    a = float(rango_val[1])-float(rango_val[0])
+    lim_inf = float(rango_val[0])
+    percentil = lim_inf*((percentil_pos-prev_count)/(tabla_dist.iloc[perc_idx,frec_abs_idx]))*a
+    return percentil
+    
