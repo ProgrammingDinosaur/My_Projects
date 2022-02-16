@@ -174,7 +174,7 @@ def anadir_estimaciones(df: pd.DataFrame, value_idx: int, media: float, media_ti
     df = pd.concat([df,df2],join='inner')
     estimaciones = [0]
     for val in vals:
-        estimaciones.append(val*media)
+        estimaciones.append(val*((media/100)+1))
     txt_est = 'Estimaciones media '+media_tipo
     df[txt_est] = estimaciones
     return df
