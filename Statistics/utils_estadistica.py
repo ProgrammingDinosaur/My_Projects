@@ -290,10 +290,10 @@ def calcular_percentiles_datos_agrupados(tabla_dist: pd.DataFrame,percentils: li
     Parametros:
         df: Dataframe de Pandas del cual sacar los datos
         data_col_idx: (int) indice de la columna del DataFrame con los datos
-        percentil: float del percentil a calcular 
+        percentil: lista de valores de  los percentiles a calcular
 
     Regresa: 
-        float del resultado del percentil
+        iterador de strings de los  percentiles que se van calculando
     """
 
     values = tabla_dist.iloc[:,frec_abs_idx].values
@@ -311,4 +311,4 @@ def calcular_percentiles_datos_agrupados(tabla_dist: pd.DataFrame,percentils: li
         a = float(rango_val[1])-float(rango_val[0])
         lim_inf = float(rango_val[0])
         percen = lim_inf+((percentil_pos-prev_count)/(tabla_dist.iloc[perc_idx,frec_abs_idx]))*a
-        yield 'Percentil: '+str(percentil)+ ' : ' + str(percen)
+        yield 'Percentil '+str(percentil)+ ' : ' + str(percen)
