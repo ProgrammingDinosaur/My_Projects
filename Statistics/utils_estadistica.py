@@ -358,7 +358,7 @@ def media_datos_agrupados(tabla_dist: pd.DataFrame,frec_abs_idx = 1):
     media_ag = np.sum(xifi)/fi
     return media_ag
 
-def calcular_desviacion_media_agrupada(tabla_dist: pd.DataFrame,frec_abs_idx = 1):
+def calcular_desviacion_estandar_agrupada(tabla_dist: pd.DataFrame,frec_abs_idx = 1):
     xi = [((float(r.split('-')[1])+float(r.split('-')[0]))/2) for r in tabla_dist.iloc[:,0].values]
     xifi = 0
     fas = 0
