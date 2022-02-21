@@ -280,7 +280,7 @@ def calcular_percentiles(df: pd.DataFrame,data_col_idx: int, percentil_list: lis
     percentiles = df.iloc[data_col_idx].quantile(percentil_list,interpolation='midpoint')
     return percentiles
 
-def calcular_percentiles_datos_agrupados(tabla_dist: pd.DataFrame,percentils: list, frec_abs_idx = 1,):
+def calcular_percentiles_datos_agrupados(tabla_dist: pd.DataFrame,percentils: list, frec_abs_idx = 1,)->str:
     """
     Toma un Dataframe en forma de distribución de frecuencias (agrupada) y obtiene el percentil dado.
 
@@ -312,3 +312,20 @@ def calcular_percentiles_datos_agrupados(tabla_dist: pd.DataFrame,percentils: li
         lim_inf = float(rango_val[0])
         percen = lim_inf+((percentil_pos-prev_count)/(tabla_dist.iloc[perc_idx,frec_abs_idx]))*a
         yield 'Percentil '+str(percentil)+ ' : ' + str(percen)
+
+def calcular_rango(datos: np.ndarray)->np.ndarray:
+    """
+    Toma un arreglo de datos y regresa el rango
+
+    NOTA:
+        No usar en datos agrupados, ver funcion "x"
+
+    Parametros:
+        datos: Numpy Array con los datos
+
+
+    Regresa: 
+       Valor absoluto del Rango
+    """
+    return np.abs(np.max(datos)-np.min(datos))
+
