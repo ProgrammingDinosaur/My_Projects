@@ -358,7 +358,7 @@ def media_datos_agrupados(tabla_dist: pd.DataFrame,frec_abs_idx = 1):
     media_ag = np.sum(xifi)/fi
     return media_ag
 
-def calcular_varianza_agrupada(tabla_dist: pd.DataFrame,frec_abs_idx = 1):
+def calcular_desviacion_media_agrupada(tabla_dist: pd.DataFrame,frec_abs_idx = 1):
     xi = [((float(r.split('-')[1])+float(r.split('-')[0]))/2) for r in tabla_dist.iloc[:,0].values]
     xifi = 0
     fas = 0
@@ -370,4 +370,19 @@ def calcular_varianza_agrupada(tabla_dist: pd.DataFrame,frec_abs_idx = 1):
         xi2fi += (pow(i,2))*fi_
     media_ag = xifi/fas
     varianza = math.sqrt((xi2fi/fas)-(pow(media_ag,2)))
+    return varianza
+
+
+def calcular_varianza_agrupada(tabla_dist: pd.DataFrame,frec_abs_idx = 1):
+    xi = [((float(r.split('-')[1])+float(r.split('-')[0]))/2) for r in tabla_dist.iloc[:,0].values]
+    xifi = 0
+    fas = 0
+    xi2fi = 0
+    for idx,i in enumerate(xi):
+        fi_ = tabla_dist.iloc[idx,frec_abs_idx]
+        fas += fi_
+        xifi += (i*fi_)
+        xi2fi += (pow(i,2))*fi_
+    media_ag = xifi/fas
+    varianza = (xi2fi/fas)-(pow(media_ag,2))
     return varianza
