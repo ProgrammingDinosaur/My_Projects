@@ -1,3 +1,4 @@
+from typing import Iterable
 import pandas as pd
 import numpy as np
 from scipy.stats.mstats import gmean
@@ -329,3 +330,16 @@ def calcular_rango(datos: np.ndarray)->np.ndarray:
     """
     return np.abs(np.max(datos)-np.min(datos))
 
+def calcular_varianza(datos: Iterable):
+    """
+    Toma datos y saca su varianza
+
+    Nota: No usar en datos agrupados, ver funcion "x
+
+    Parametros: 
+        Datos: un iterable con los datos, puede ser una numpy array o una lista
+    
+    Regresa: Varianza en float
+
+    """
+    return statistics.variance(datos)
