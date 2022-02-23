@@ -376,3 +376,8 @@ def calcular_desviacion_estandar_agrupada(tabla_dist: pd.DataFrame,frec_abs_idx 
     desv_estar,_ = calcular_varianza_agrupada(tabla_dist,frec_abs_idx)
     varianza= math.sqrt(desv_estar)
     return varianza
+
+def calcular_coeficiente_variacion_agrupada(tabla_dist: pd.DataFrame,frec_abs_idx = 1):
+    desv_estar,media = calcular_varianza_agrupada(tabla_dist,frec_abs_idx)
+    varianza = math.sqrt(desv_estar)
+    return varianza/media
