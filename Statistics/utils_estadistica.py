@@ -1,9 +1,11 @@
 import math
 from typing import Iterable
+from matplotlib.pyplot import table
 import pandas as pd
 import numpy as np
 from scipy.stats.mstats import gmean
 import statistics
+from scipy.stats import chi2_contingency
 
 class InvalidDim(Exception):
     '''
@@ -331,7 +333,7 @@ def calcular_rango(datos: np.ndarray)->np.ndarray:
     """
     return np.abs(np.max(datos)-np.min(datos))
 
-def calcular_varianza(datos: Iterable):
+def calcular_varianza(datos: np.ndarray):
     """
     Toma datos y saca su varianza
 
@@ -344,7 +346,7 @@ def calcular_varianza(datos: Iterable):
     Regresa: Varianza en float
 
     """
-    return statistics.variance(datos)
+    return np.var(datos)
 
 def media_datos_agrupados(tabla_dist: pd.DataFrame,frec_abs_idx = 1):
     xi = [((float(r.split('-')[1])+float(r.split('-')[0]))/2) for r in tabla_dist.iloc[:,0].values]
@@ -381,3 +383,30 @@ def calcular_coeficiente_variacion_agrupada(tabla_dist: pd.DataFrame,frec_abs_id
     desv_estar,media = calcular_varianza_agrupada(tabla_dist,frec_abs_idx)
     varianza = math.sqrt(desv_estar)
     return varianza/media
+
+def chi_cuadrada(df: pd.DataFrame,col_start=0,alpha = .5)->bool:
+    # percentiles_ref = {1:3.84,2:5.99,3:7.81,4:9.49,5:11.07}
+    # sr1 = np.sum(df.iloc[0,1:].values)
+    # sr2 = np.sum(df.iloc[1,1:].values)
+    # sc1 = np.sum(df.iloc[:,1].values)
+    # sc2 = np.sum(df.iloc[:,2].values)
+    # paso2 = np.zeros((df.shape[0],df.shape[1]-1))
+    # N = sr1+sr2
+    # for i in range(1,df.shape[1]):
+    #     for idx,j in enumerate(df.iloc[:,i].values):
+    #         if i == 1:
+    #             paso2[idx,(i-1)] = sr1*sc1/N if idx == 0 else sr2*sc1/N
+    #         else:
+    #             paso2[idx,(i-1)] = sc2*sr1/N if idx == 0 else sr2*sc2/N
+    # chi2 = 0
+    # for idx_r in range(paso2.shape[0]):
+    #     for idx_col in range(paso2.shape[1]):
+    #         # = to paso2[row,column]
+
+    #         eq_val = ((pow((df.iloc[idx_r,idx_col+1]-paso2[idx_r,idx_col]),2))/paso2[idx_r,idx_col])
+    #         chi2 += eq_val
+    # grado_de_libertad = (paso2.shape[0]-1)*((paso2.shape[1])-1)
+    # print(grado_de_libertad)
+    table = df.iloc[:,col_start:].values
+    stat, p, dof, expected = chi2_contingency(table)
+    return p > alpha
